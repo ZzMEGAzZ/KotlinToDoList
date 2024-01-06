@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 
+
 class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
     TaskAdapter.TaskAdapterInterface {
 
@@ -71,15 +72,10 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-                    val todoTask =
-                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
-
-                    if (todoTask != null) {
-                        toDoItemList.add(todoTask)
-                    }
-
+                    val todoTask = taskSnapshot.getValue(ToDoData::class.java)
+                    todoTask?.let { toDoItemList.add(it) }
                 }
-                Log.d(TAG, "onDataChange: " + toDoItemList)
+                Log.d(TAG, "onDataChange: $toDoItemList")
                 taskAdapter.notifyDataSetChanged()
 
             }
@@ -87,10 +83,9 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
             }
-
-
         })
     }
+
 
     private fun init() {
 
@@ -109,35 +104,61 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         binding.mainRecyclerView.adapter = taskAdapter
     }
 
-    override fun saveTask(todoTask: String, todoEdit: TextInputEditText) {
+    override fun saveTask(name: String, status: String, newIndex: Int, todoEt: TextInputEditText) {
+        // อ่านจำนวนของงานใน Firebase เพื่อหา index ถัดไป
+        database.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // คำนวณ index ใหม่จากจำนวนของงานที่มีอยู่
+                val newIndex = (snapshot.childrenCount + 1).toInt()
 
-        database
-            .push().setValue(todoTask)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show()
-                    todoEdit.text = null
+                // สร้าง HashMap สำหรับข้อมูลที่จะเซ็ต
+                val taskMap = hashMapOf(
+                    "name" to name,
+                    "status" to status,
+                    "index" to newIndex
+                )
 
-                } else {
-                    Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
-                }
+                // เซ็ตข้อมูลงานใหม่ลงใน Firebase
+                database.push().setValue(taskMap)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show()
+                            todoEt.text = null
+                        } else {
+                            Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                        }
+                    }
             }
-        frag!!.dismiss()
 
+            override fun onCancelled(databaseError: DatabaseError) {
+                Toast.makeText(context, databaseError.message, Toast.LENGTH_SHORT).show()
+            }
+        })
+        frag?.dismiss() // ใช้ ? เพื่อป้องกัน NullPointerException
     }
+
+
+
 
     override fun updateTask(toDoData: ToDoData, todoEdit: TextInputEditText) {
-        val map = HashMap<String, Any>()
-        map[toDoData.taskId] = toDoData.task
-        database.updateChildren(map).addOnCompleteListener {
-            if (it.isSuccessful) {
+        // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
+        val taskMap = hashMapOf<String, Any>(
+            "name" to toDoData.name,
+            "status" to toDoData.status,
+            "index" to toDoData.index
+        )
+
+        // อัปเดตงานใน Firebase โดยใช้ taskId และ HashMap ที่เตรียมไว้
+        database.child(toDoData.taskId).updateChildren(taskMap).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
                 Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
-            frag!!.dismiss()
+            frag?.dismiss()
         }
     }
+
 
     override fun onDeleteItemClicked(toDoData: ToDoData, position: Int) {
         database.child(toDoData.taskId).removeValue().addOnCompleteListener {
@@ -150,12 +171,15 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
     }
 
     override fun onEditItemClicked(toDoData: ToDoData, position: Int) {
-        if (frag != null)
-            childFragmentManager.beginTransaction().remove(frag!!).commit()
+        // ตรวจสอบว่ามี dialog ที่กำลังแสดงอยู่หรือไม่ ถ้ามี ก็จะลบมันออก
+        frag?.let {
+            childFragmentManager.beginTransaction().remove(it).commit()
+        }
 
-        frag = ToDoDialogFragment.newInstance(toDoData.taskId, toDoData.task)
-        frag!!.setListener(this)
-        frag!!.show(
+        // สร้าง instance ใหม่ของ ToDoDialogFragment ด้วยข้อมูลที่มีอยู่
+        frag = ToDoDialogFragment.newInstance(toDoData.taskId, toDoData.name, toDoData.status, toDoData.index)
+        frag?.setListener(this)
+        frag?.show(
             childFragmentManager,
             ToDoDialogFragment.TAG
         )

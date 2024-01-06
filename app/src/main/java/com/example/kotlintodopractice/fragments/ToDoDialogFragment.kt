@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.example.kotlintodopractice.R
 import com.example.kotlintodopractice.databinding.FragmentToDoDialogBinding
 import com.example.kotlintodopractice.utils.model.ToDoData
 import com.google.android.material.textfield.TextInputEditText
@@ -24,11 +23,14 @@ class ToDoDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(taskId: String, task: String) =
+        fun newInstance(taskId: String, task: String, status: String, index: Int) =
             ToDoDialogFragment().apply {
                 arguments = Bundle().apply {
                     putString("taskId", taskId)
                     putString("task", task)
+                    putString("status" ,  status)
+                    putInt("index" ,  index)
+
                 }
             }
     }
@@ -38,7 +40,7 @@ class ToDoDialogFragment : DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
 
         binding = FragmentToDoDialogBinding.inflate(inflater , container,false)
@@ -48,34 +50,49 @@ class ToDoDialogFragment : DialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (arguments != null){
-
-            toDoData = ToDoData(arguments?.getString("taskId").toString() ,arguments?.getString("task").toString())
-            binding.todoEt.setText(toDoData?.task)
+        // ตรวจสอบว่าได้รับ arguments หรือไม่
+        toDoData = arguments?.let { bundle ->
+            ToDoData(
+                bundle.getString("taskId").orEmpty(),
+                bundle.getString("name").orEmpty(),
+                bundle.getString("status").orEmpty(),
+                bundle.getInt("index", 0) // ใช้ getInt และให้ค่า default เป็น 0
+            )
         }
 
+        // กำหนดค่าใน EditText ด้วยชื่องาน
+        binding.todoEt.setText(toDoData?.name)
 
         binding.todoClose.setOnClickListener {
             dismiss()
         }
 
         binding.todoNextBtn.setOnClickListener {
+            val name = binding.todoEt.text.toString()
+            val status = "newStatus" // ตั้งค่า status ตามที่ต้องการ
+            val index = 0 // ตั้งค่า index เป็น 0 หรือตามค่าที่ได้จากการคำนวณหรือรับค่าจาก UI
 
-            val todoTask = binding.todoEt.text.toString()
-            if (todoTask.isNotEmpty()){
+            if (name.isNotEmpty()){
+                // ตรวจสอบว่า toDoData เป็น null หรือไม่
                 if (toDoData == null){
-                    listener?.saveTask(todoTask , binding.todoEt)
+                    // สร้างงานใหม่
+                    listener?.saveTask(name, status, index, binding.todoEt)
                 }else{
-                    toDoData!!.task = todoTask
+                    // อัพเดทงานที่มีอยู่
+                    toDoData?.apply {
+                        this.name = name
+                        this.status = status
+                        this.index = index
+                    }
                     listener?.updateTask(toDoData!!, binding.todoEt)
                 }
-
             }
         }
     }
 
+
     interface OnDialogNextBtnClickListener{
-        fun saveTask(todoTask:String , todoEdit:TextInputEditText)
+        fun saveTask(todoTask: String, todoEdit: String, newIndex: Int, todoEt: TextInputEditText)
         fun updateTask(toDoData: ToDoData , todoEdit:TextInputEditText)
     }
 

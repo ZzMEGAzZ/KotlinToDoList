@@ -23,21 +23,26 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        with(holder) {
-            with(list[position]) {
-                binding.todoTask.text = this.task
+        val currentItem = list[position]
+        with(holder.binding) {
+            // ตั้งค่าข้อความของงาน - สมมติว่า 'name' เป็นชื่อของงาน
+            todoTask.text = currentItem.name
 
-                Log.d(TAG, "onBindViewHolder: "+this)
-                binding.editTask.setOnClickListener {
-                    listener?.onEditItemClicked(this , position)
-                }
+            // Log สำหรับ Debugging
+            Log.d(TAG, "onBindViewHolder: $currentItem")
 
-                binding.deleteTask.setOnClickListener {
-                    listener?.onDeleteItemClicked(this , position)
-                }
+            // ตั้ง Listener สำหรับปุ่ม Edit
+            editTask.setOnClickListener {
+                listener?.onEditItemClicked(currentItem, position)
+            }
+
+            // ตั้ง Listener สำหรับปุ่ม Delete
+            deleteTask.setOnClickListener {
+                listener?.onDeleteItemClicked(currentItem, position)
             }
         }
     }
+
 
     override fun getItemCount(): Int {
         return list.size
