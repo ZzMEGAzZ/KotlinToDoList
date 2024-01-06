@@ -6,4 +6,5 @@
     <string name="enter_your_pass">Enter Your Password .....</string>
     <string name="re_enter_your_pass">Re-enter Your Password .....</string>
     <string name="type_your_task">Type your task .....</string>
+    <string name="done_task" />
 </resources>
