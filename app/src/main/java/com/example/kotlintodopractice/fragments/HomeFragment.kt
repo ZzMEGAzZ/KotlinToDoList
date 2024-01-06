@@ -66,20 +66,45 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         }
     }
 
+//    private fun getTaskFromFirebase() {
+//        database.addValueEventListener(object : ValueEventListener {
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//
+//                toDoItemList.clear()
+//                for (taskSnapshot in snapshot.children) {
+//                    val todoTask =
+//                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
+//
+//                    if (todoTask != null) {
+//                        toDoItemList.add(todoTask)
+//                    }
+//
+//                }
+//                Log.d(TAG, "onDataChange: " + toDoItemList)
+//                taskAdapter.notifyDataSetChanged()
+//
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+//            }
+//        })
+//    }
+
     private fun getTaskFromFirebase() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-                    val todoTask =
-                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
+                    val name = taskSnapshot.child("name").getValue(String::class.java)
 
-                    if (todoTask != null) {
+                    if (name != null) {
+                        val todoTask = ToDoData(taskSnapshot.key!!, name)
                         toDoItemList.add(todoTask)
                     }
-
                 }
+
                 Log.d(TAG, "onDataChange: " + toDoItemList)
                 taskAdapter.notifyDataSetChanged()
 
@@ -90,7 +115,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             }
         })
     }
-
 
     private fun init() {
 
