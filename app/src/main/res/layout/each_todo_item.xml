@@ -50,7 +50,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/doneInTask"
             style="@style/Widget.AppCompat.Button"
             android:layout_width="80dp"
             android:layout_height="48dp"

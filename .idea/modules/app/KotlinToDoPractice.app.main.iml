@@ -24,6 +24,7 @@
           <stringArguments>
             <stringArg name="classpath">
               <args>
+                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/a62f4a6c8429a871915239729d16abec/transformed/viewbinding-8.1.2-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/5e8077a6fb32523c27d30555a314d01a/transformed/firebase-database-20.3.0-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/2222aa6a3bb32411abbc944674da47f2/transformed/firebase-common-ktx-20.4.2-api.jar</arg>
