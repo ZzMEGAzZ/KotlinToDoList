@@ -59,4 +59,9 @@
         android:name="com.example.kotlintodopractice.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/fragment_finished"
+        android:name="com.example.kotlintodopractice.fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_finished" />
 </navigation>
