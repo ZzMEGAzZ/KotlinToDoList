@@ -59,7 +59,7 @@ class ToDoDialogFragment : DialogFragment() {
         }
 
         // กำหนดค่าใน EditText ด้วยชื่องาน
-        binding.todoEt.setText(toDoData?.name)
+        binding.todoEt.setText(this.toDoData?.name)
 
         binding.todoClose.setOnClickListener {
             dismiss()
@@ -67,7 +67,7 @@ class ToDoDialogFragment : DialogFragment() {
 
         binding.todoNextBtn.setOnClickListener {
             val name = binding.todoEt.text.toString()
-            val status = "newStatus" // ตั้งค่า status ตามที่ต้องการ
+            val status = "todo" // ตั้งค่า status ตามที่ต้องการ
 
             if (name.isNotEmpty()){
                 // ตรวจสอบว่า toDoData เป็น null หรือไม่

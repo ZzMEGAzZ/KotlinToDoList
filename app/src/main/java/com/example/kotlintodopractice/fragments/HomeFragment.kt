@@ -224,5 +224,18 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
+//    override fun onClickFAB() {
+//        binding.doneTaskBtn.setOnClickListener(View.OnClickListener {
+//            // navigate to fragment_finished
+//            val fragment = FinishedFragment()
+//            val transaction = requireActivity().supportFragmentManager.beginTransaction()
+//            transaction.replace(R.id.fragment_container, fragment)
+//            transaction.addToBackStack(null)
+//            transaction.commit()
+//        })
+//        }
+//
+//    }
+
 
 }
