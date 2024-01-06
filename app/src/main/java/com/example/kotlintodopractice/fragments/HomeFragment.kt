@@ -72,10 +72,15 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
-                    val todoTask = taskSnapshot.getValue(ToDoData::class.java)
-                    todoTask?.let { toDoItemList.add(it) }
+                    val todoTask =
+                        taskSnapshot.key?.let { ToDoData(it, taskSnapshot.value.toString()) }
+
+                    if (todoTask != null) {
+                        toDoItemList.add(todoTask)
+                    }
+
                 }
-                Log.d(TAG, "onDataChange: $toDoItemList")
+                Log.d(TAG, "onDataChange: " + toDoItemList)
                 taskAdapter.notifyDataSetChanged()
 
             }
@@ -104,28 +109,25 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         binding.mainRecyclerView.adapter = taskAdapter
     }
 
-    override fun saveTask(name: String, status: String, newIndex: Int, todoEt: TextInputEditText) {
+    override fun saveTask(name: String, status: String, todoEt: TextInputEditText) {
         // อ่านจำนวนของงานใน Firebase เพื่อหา index ถัดไป
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                // คำนวณ index ใหม่จากจำนวนของงานที่มีอยู่
-                val newIndex = (snapshot.childrenCount + 1).toInt()
 
                 // สร้าง HashMap สำหรับข้อมูลที่จะเซ็ต
                 val taskMap = hashMapOf(
                     "name" to name,
                     "status" to status,
-                    "index" to newIndex
                 )
 
                 // เซ็ตข้อมูลงานใหม่ลงใน Firebase
                 database.push().setValue(taskMap)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
                             Toast.makeText(context, "Task Added Successfully", Toast.LENGTH_SHORT).show()
                             todoEt.text = null
                         } else {
-                            Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
                         }
                     }
             }
@@ -137,18 +139,31 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         frag?.dismiss() // ใช้ ? เพื่อป้องกัน NullPointerException
     }
 
-
-
-
     override fun updateTask(toDoData: ToDoData, todoEdit: TextInputEditText) {
         // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
         val taskMap = hashMapOf<String, Any>(
             "name" to toDoData.name,
-            "status" to toDoData.status,
-            "index" to toDoData.index
         )
 
         // อัปเดตงานใน Firebase โดยใช้ taskId และ HashMap ที่เตรียมไว้
+        database.child(toDoData.taskId).updateChildren(taskMap).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
+            }
+            frag?.dismiss()
+        }
+    }
+
+    override fun onCheckBoxClicked(toDoData: ToDoData, isChecked: Boolean, position: Int) {
+
+        // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
+        val taskMap = hashMapOf<String, Any>(
+
+            "status" to if (isChecked) "done" else "todo"
+        )
+
         database.child(toDoData.taskId).updateChildren(taskMap).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
@@ -177,12 +192,13 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         }
 
         // สร้าง instance ใหม่ของ ToDoDialogFragment ด้วยข้อมูลที่มีอยู่
-        frag = ToDoDialogFragment.newInstance(toDoData.taskId, toDoData.name, toDoData.status, toDoData.index)
+        frag = ToDoDialogFragment.newInstance(toDoData.taskId, toDoData.name, toDoData.status)
         frag?.setListener(this)
         frag?.show(
             childFragmentManager,
             ToDoDialogFragment.TAG
         )
     }
+
 
 }

@@ -22,23 +22,44 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
         return TaskViewHolder(binding)
     }
 
+//    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
+//        val currentItem = list[position]
+//        with(holder.binding) {
+//            // ตั้งค่าข้อความของงาน - สมมติว่า 'name' เป็นชื่อของงาน
+//            todoTask.text = currentItem.name
+//
+//            // Log สำหรับ Debugging
+//            Log.d(TAG, "onBindViewHolder: $currentItem")
+//
+//            // ตั้ง Listener สำหรับปุ่ม Edit
+//            editTask.setOnClickListener {
+//                listener?.onEditItemClicked(currentItem, position)
+//            }
+//
+//            // ตั้ง Listener สำหรับปุ่ม Delete
+//            deleteTask.setOnClickListener {
+//                listener?.onDeleteItemClicked(currentItem, position)
+//            }
+//        }
+//    }
+
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-        val currentItem = list[position]
-        with(holder.binding) {
-            // ตั้งค่าข้อความของงาน - สมมติว่า 'name' เป็นชื่อของงาน
-            todoTask.text = currentItem.name
+        with(holder) {
+            with(list[position]) {
+                binding.todoTask.text = this.name
 
-            // Log สำหรับ Debugging
-            Log.d(TAG, "onBindViewHolder: $currentItem")
+                Log.d(TAG, "onBindViewHolder: "+this)
+                binding.editTask.setOnClickListener {
+                    listener?.onEditItemClicked(this , position)
+                }
 
-            // ตั้ง Listener สำหรับปุ่ม Edit
-            editTask.setOnClickListener {
-                listener?.onEditItemClicked(currentItem, position)
-            }
+                binding.deleteTask.setOnClickListener {
+                    listener?.onDeleteItemClicked(this , position)
+                }
 
-            // ตั้ง Listener สำหรับปุ่ม Delete
-            deleteTask.setOnClickListener {
-                listener?.onDeleteItemClicked(currentItem, position)
+                binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
+                    listener?.onCheckBoxClicked(this , isChecked , position)
+                }
             }
         }
     }
@@ -51,5 +72,7 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
     interface TaskAdapterInterface{
         fun onDeleteItemClicked(toDoData: ToDoData , position : Int)
         fun onEditItemClicked(toDoData: ToDoData , position: Int)
+
+        fun onCheckBoxClicked(toDoData: ToDoData , isChecked: Boolean , position: Int)
     }
 }

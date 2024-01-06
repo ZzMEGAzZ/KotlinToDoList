@@ -23,13 +23,12 @@ class ToDoDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "DialogFragment"
         @JvmStatic
-        fun newInstance(taskId: String, task: String, status: String, index: Int) =
+        fun newInstance(taskId: String, name: String, status: String) =
             ToDoDialogFragment().apply {
                 arguments = Bundle().apply {
                     putString("taskId", taskId)
-                    putString("task", task)
+                    putString("name", name)
                     putString("status" ,  status)
-                    putInt("index" ,  index)
 
                 }
             }
@@ -53,10 +52,9 @@ class ToDoDialogFragment : DialogFragment() {
         // ตรวจสอบว่าได้รับ arguments หรือไม่
         toDoData = arguments?.let { bundle ->
             ToDoData(
-                bundle.getString("taskId").orEmpty(),
-                bundle.getString("name").orEmpty(),
-                bundle.getString("status").orEmpty(),
-                bundle.getInt("index", 0) // ใช้ getInt และให้ค่า default เป็น 0
+                bundle.getString("taskId").toString(),
+                bundle.getString("name").toString(),
+                bundle.getString("status").toString(),
             )
         }
 
@@ -70,19 +68,17 @@ class ToDoDialogFragment : DialogFragment() {
         binding.todoNextBtn.setOnClickListener {
             val name = binding.todoEt.text.toString()
             val status = "newStatus" // ตั้งค่า status ตามที่ต้องการ
-            val index = 0 // ตั้งค่า index เป็น 0 หรือตามค่าที่ได้จากการคำนวณหรือรับค่าจาก UI
 
             if (name.isNotEmpty()){
                 // ตรวจสอบว่า toDoData เป็น null หรือไม่
                 if (toDoData == null){
                     // สร้างงานใหม่
-                    listener?.saveTask(name, status, index, binding.todoEt)
+                    listener?.saveTask(name, status, binding.todoEt)
                 }else{
                     // อัพเดทงานที่มีอยู่
                     toDoData?.apply {
                         this.name = name
                         this.status = status
-                        this.index = index
                     }
                     listener?.updateTask(toDoData!!, binding.todoEt)
                 }
@@ -92,7 +88,7 @@ class ToDoDialogFragment : DialogFragment() {
 
 
     interface OnDialogNextBtnClickListener{
-        fun saveTask(todoTask: String, todoEdit: String, newIndex: Int, todoEt: TextInputEditText)
+        fun saveTask(todoTask: String, todoEdit: String, todoEt: TextInputEditText)
         fun updateTask(toDoData: ToDoData , todoEdit:TextInputEditText)
     }
 
