@@ -18,14 +18,13 @@
             android:id="@+id/todoTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="80dp"
             android:fontFamily="@font/inter_extra_bold"
             android:paddingStart="16dp"
             android:text="Item 1"
             android:textColor="@color/text_color"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/checkDone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.493" />
 
@@ -49,22 +48,19 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/doneInTask"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="80dp"
-            android:layout_height="48dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="5dp"
-            android:text="Done"
-            app:iconTint="#FFFFFF"
+        <ImageButton
+            android:id="@+id/checkDone"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="20dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="@string/common_google_play_services_update_button"
+            android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/todoTask"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="#000000" />
+            app:srcCompat="@drawable/done_btn"
+            tools:ignore="TouchTargetSizeCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
