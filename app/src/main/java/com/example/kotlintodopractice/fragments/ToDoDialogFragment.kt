@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.example.kotlintodopractice.databinding.FragmentToDoDialogBinding
-import com.example.kotlintodopractice.utils.model.ToDoData
+import com.example.kotlintodopractice.utils.ToDoData
 import com.google.android.material.textfield.TextInputEditText
 
 class ToDoDialogFragment : DialogFragment() {
@@ -69,7 +69,7 @@ class ToDoDialogFragment : DialogFragment() {
 
         binding.todoNextBtn.setOnClickListener {
             val name = binding.todoEt.text.toString()
-            val status = "newStatus" // ตั้งค่า status ตามที่ต้องการ
+            val status = "todo" // ตั้งค่า status ตามที่ต้องการ
             val index = 0 // ตั้งค่า index เป็น 0 หรือตามค่าที่ได้จากการคำนวณหรือรับค่าจาก UI
 
             if (name.isNotEmpty()){
@@ -93,7 +93,7 @@ class ToDoDialogFragment : DialogFragment() {
 
     interface OnDialogNextBtnClickListener{
         fun saveTask(todoTask: String, todoEdit: String, newIndex: Int, todoEt: TextInputEditText)
-        fun updateTask(toDoData: ToDoData , todoEdit:TextInputEditText)
+        fun updateTask(toDoData: ToDoData, todoEdit:TextInputEditText)
     }
 
 }

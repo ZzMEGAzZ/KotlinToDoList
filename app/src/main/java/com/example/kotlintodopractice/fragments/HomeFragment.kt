@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlintodopractice.databinding.FragmentHomeBinding
 import com.example.kotlintodopractice.utils.adapter.TaskAdapter
-import com.example.kotlintodopractice.utils.model.ToDoData
+import com.example.kotlintodopractice.utils.ToDoData
+import com.example.kotlintodopractice.utils.data.api.Api
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -19,6 +20,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.example.kotlintodopractice.utils.data.model.User
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
@@ -27,12 +32,14 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
     private val TAG = "HomeFragment"
     private lateinit var binding: FragmentHomeBinding
     private lateinit var database: DatabaseReference
+    private lateinit var updateDatabase: DatabaseReference
     private var frag: ToDoDialogFragment? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var authId: String
 
     private lateinit var taskAdapter: TaskAdapter
     private lateinit var toDoItemList: MutableList<ToDoData>
+    private var taskID = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,6 +93,29 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         })
     }
 
+    private fun getTargetTaskFromFirebase() {
+        database.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                toDoItemList.clear()
+                for (taskSnapshot in snapshot.children) {
+                    val todoTask = taskSnapshot.getValue(ToDoData::class.java)
+                    todoTask?.let { toDoItemList.add(it) }
+                    taskID = taskSnapshot.child(todoTask!!.taskId).toString()
+                }
+                Log.d(TAG, "onDataChange: $toDoItemList")
+                taskAdapter.notifyDataSetChanged()
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+
+
 
     private fun init() {
 
@@ -93,7 +123,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         authId = auth.currentUser!!.uid
         database = Firebase.database.reference.child("Tasks")
             .child(authId)
-
 
         binding.mainRecyclerView.setHasFixedSize(true)
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)
@@ -103,6 +132,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         taskAdapter.setListener(this)
         binding.mainRecyclerView.adapter = taskAdapter
     }
+
 
     override fun saveTask(name: String, status: String, newIndex: Int, todoEt: TextInputEditText) {
         // อ่านจำนวนของงานใน Firebase เพื่อหา index ถัดไป
@@ -145,7 +175,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         val taskMap = hashMapOf<String, Any>(
             "name" to toDoData.name,
             "status" to toDoData.status,
-            "index" to toDoData.index
+            "index" to toDoData.taskId
         )
 
         // อัปเดตงานใน Firebase โดยใช้ taskId และ HashMap ที่เตรียมไว้
@@ -158,6 +188,28 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             frag?.dismiss()
         }
     }
+
+//    override fun onCheckBoxClicked(toDoData: ToDoData, isChecked: Boolean, position: Int) {
+//        getTargetTaskFromFirebase()
+//        // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
+//        val taskMap = hashMapOf<String, Any>(
+//            "name" to toDoData.name,
+//            "status" to if (isChecked) "done" else "todo",
+//            "index" to toDoData.index,
+//        )
+//
+//        val map = HashMap<String, Any>()
+//        map[toDoData.taskId] = toDoData.name
+//        Firebase.database.reference.child("Tasks")
+//            .child(authId).child(taskID).updateChildren(taskMap).addOnCompleteListener {
+//            if (it.isSuccessful) {
+//                Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+//            } else {
+//                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
+//            }
+//            frag!!.dismiss()
+//        }
+//    }
 
 
     override fun onDeleteItemClicked(toDoData: ToDoData, position: Int) {
@@ -184,5 +236,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             ToDoDialogFragment.TAG
         )
     }
+
 
 }

@@ -11,6 +11,10 @@ import androidx.navigation.Navigation
 import com.example.kotlintodopractice.R
 import com.example.kotlintodopractice.databinding.FragmentSignInBinding
 import com.google.firebase.auth.FirebaseAuth
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import com.example.kotlintodopractice.utils.data.api.Api
 
 class SignInFragment : Fragment() {
 
@@ -42,25 +46,27 @@ class SignInFragment : Fragment() {
 
             if (email.isNotEmpty() && pass.isNotEmpty())
 
-                loginUser(email, pass)
+                performLogin(email, pass)
             else
                 Toast.makeText(context, "Empty fields are not allowed", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun loginUser(email: String, pass: String) {
-        mAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
-            if (it.isSuccessful)
-                navController.navigate(R.id.action_signInFragment_to_homeFragment)
-            else
-                Toast.makeText(context, it.exception.toString(), Toast.LENGTH_SHORT).show()
-
+    private fun performLogin(username: String, password: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            try {
+                val user = Api.login(username, password)
+                // Handle successful login, e.g., update UI or store user data
+                Toast.makeText(context, "Login Success", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                // Handle login failure, e.g., show an error message
+                Toast.makeText(context, "Login Failed", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     private fun init(view: View) {
         navController = Navigation.findNavController(view)
-        mAuth = FirebaseAuth.getInstance()
     }
 
 }
