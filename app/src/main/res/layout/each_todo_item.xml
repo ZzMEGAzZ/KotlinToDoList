@@ -18,7 +18,7 @@
             android:id="@+id/todoTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="80dp"
             android:fontFamily="@font/inter_extra_bold"
             android:paddingStart="16dp"
             android:text="Item 1"
@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.51" />
+            app:layout_constraintVertical_bias="0.493" />
 
         <ImageView
             android:id="@+id/editTask"
@@ -51,13 +51,14 @@
 
         <Button
             android:id="@+id/button2"
-            android:layout_width="48dp"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="80dp"
             android:layout_height="48dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
-            android:text="Button"
+            android:text="Done"
             app:iconTint="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/todoTask"
