@@ -62,6 +62,11 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
         }
 
+        binding.LogOutBtn.setOnClickListener(View.OnClickListener {
+            auth.signOut()
+            navController.navigate(R.id.action_homeFragment_to_splashFragment)
+        })
+
         binding.addTaskBtn.setOnClickListener {
 
             if (frag != null)
