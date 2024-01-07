@@ -70,4 +70,6 @@ class SignUpFragment : Fragment() {
         navController = Navigation.findNavController(view)
         mAuth = FirebaseAuth.getInstance()
     }
+
+
 }

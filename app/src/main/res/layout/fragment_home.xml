@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.FinishFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -85,6 +85,7 @@
         android:src="@drawable/btn_done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:onClick="navigateToFinishFragment"
         tools:ignore="SpeakableTextPresentCheck" />
 
 
