@@ -48,12 +48,9 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize NavController
         navController = Navigation.findNavController(view)
 
-        // Your other code...
         init(view)
-        //get data from firebase
         getTaskFromFirebase()
     }
     private fun getTaskFromFirebase() {
@@ -80,12 +77,10 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
         })
     }
     private fun init(view: View) {
-        // Your initialization code...
         auth = FirebaseAuth.getInstance()
         authId = auth.currentUser!!.uid
         database = Firebase.database.reference.child("Tasks")
             .child(authId)
-        // Example of using NavController to navigate
         binding.backBtn.setOnClickListener {
             navController.navigate(R.id.action_fragment_finished_to_homeFragment)
         }
@@ -121,8 +116,9 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
                 Toast.makeText(context, databaseError.message, Toast.LENGTH_SHORT).show()
             }
         })
-        frag?.dismiss() // ใช้ ? เพื่อป้องกัน NullPointerException
+        frag?.dismiss()
     }
+
     override fun updateTask(toDoData: ToDoData, todoEdit: TextInputEditText) {
         val taskMap = hashMapOf<String, Any>(
             "name" to toDoData.name,
@@ -154,9 +150,7 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
             }
             frag?.dismiss()
         }
-        //getTaskFromFirebase()
     }
-
 
     override fun onDeleteItemClicked(toDoData: ToDoData, position: Int) {
         database.child(toDoData.taskId).removeValue().addOnCompleteListener {

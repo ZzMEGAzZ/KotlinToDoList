@@ -22,50 +22,6 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
         return TaskViewHolder(binding)
     }
 
-//    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-//        with(holder) {
-//            with(list[position]) {
-//                binding.todoTask.text = this.name
-//
-//                Log.d(TAG, "onBindViewHolder: "+this)
-//                binding.editTask.setOnClickListener {
-//                    listener?.onEditItemClicked(this , position)
-//                }
-//
-//                binding.deleteTask.setOnClickListener {
-//                    listener?.onDeleteItemClicked(this , position)
-//                }
-//
-//                binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
-//                    listener?.onCheckBoxClicked(this , isChecked , position)
-//                }
-//            }
-//        }
-//    }
-//    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-//        with(holder) {
-//            with(list[position]) {
-//                binding.todoTask.text = this.name
-//
-//                Log.d(TAG, "onBindViewHolder: $this")
-//                binding.editTask.setOnClickListener {
-//                    listener?.onEditItemClicked(this, position)
-//                }
-//
-//                binding.deleteTask.setOnClickListener {
-//                    listener?.onDeleteItemClicked(this, position)
-//                }
-//
-//                binding.checkDone.isChecked = this.status == "done"
-//
-//
-//                binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
-//                    listener?.onCheckBoxClicked(this, isChecked, position)
-//                }
-//
-//            }
-//        }
-//    }
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
@@ -90,9 +46,6 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
             }
         }
     }
-
-
-
 
     override fun getItemCount(): Int {
         return list.size

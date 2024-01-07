@@ -42,7 +42,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -54,7 +53,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
         init(view)
 
-        //get data from firebase
         getTaskFromFirebase()
 
         binding.doneTaskBtn.setOnClickListener {
@@ -78,10 +76,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
                 childFragmentManager,
                 ToDoDialogFragment.TAG
             )
-
         }
-
-
     }
 
     private fun getTaskFromFirebase() {
@@ -114,7 +109,6 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         authId = auth.currentUser!!.uid
         database = Firebase.database.reference.child("Tasks")
             .child(authId)
-
 
         binding.mainRecyclerView.setHasFixedSize(true)
         binding.mainRecyclerView.layoutManager = LinearLayoutManager(context)

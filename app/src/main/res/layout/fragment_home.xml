@@ -81,11 +81,11 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="#00FFFFFF"
+        android:onClick="navigateToFinishFragment"
         android:scaleType="fitXY"
         android:src="@drawable/btn_done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:onClick="navigateToFinishFragment"
         tools:ignore="SpeakableTextPresentCheck" />
 
     <ImageButton
@@ -94,8 +94,10 @@
         android:layout_height="52dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="#00FFFFFF"
         android:contentDescription="logout"
-        android:src="@android:drawable/ic_lock_power_off"
+        android:scaleType="fitCenter"
+        android:src="@drawable/log_out"
         app:circularflow_defaultRadius="10dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
