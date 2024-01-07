@@ -1,5 +1,16 @@
 # Planning To Do List App
 
+Front: XML
+Data base: Firebase
+
+ในฟังก์ชันแต่ละหน้า จะแบ่งเป็น Fragment มีดังนี้
+  - FinishedFragment หน้าแสดง Done task
+  - HomeFragment หน้าแสดง To do list ทั้งหมดที่ยังไม่เสร็จ
+  - SingInFragment หน้า Sign In ของ app 
+  - SignUpFragment หน้า Sing up ของ app
+  - SplashFragment หน้าแรกที่แสดง Logo ก่อนหน้า Login
+  - ToDoDialogFragment หน้า Pop up ในการ Add task
+
 ## Team Members
 1. **Apisit Sangkrajang** (ID: 6410742016)
 2. **Panuwat Mangkang** (ID: 6410742057)
