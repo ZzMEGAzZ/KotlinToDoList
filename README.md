@@ -29,15 +29,16 @@
 ## Picture Demo
 
 ### Sign up
-![singup](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/d3b98cb0-a236-406e-8f01-422f19d663af)
+![singup](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/fc5ff7f8-e9f1-4390-835b-ea61fcd44821)
 ### Sign In
-![singin](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/994ea057-c24d-4ca8-a062-3663cca0c6ef)
+![singin](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/f6f5f7d2-471b-4ef4-8f62-bc45bde32427)
 #### Home
 ![home](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/223d82fb-f6d1-4359-8402-cb07053ab8b7)
 ### Add Task
 ![add](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/2612717f-b875-468b-b996-1d54db010cb2)
 ### Done List
-![done](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/8e8a7f08-0669-4678-a7cf-d1805ccceec8)
+![done](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/7eff87c6-ee8b-414c-8beb-62082ccf9b11)
+
 
 
 ## Have fun using the To Do List App!
