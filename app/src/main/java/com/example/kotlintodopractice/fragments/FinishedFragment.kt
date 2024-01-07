@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.kotlintodopractice.R
-import com.example.kotlintodopractice.databinding.FragmentHomeBinding
 import com.example.kotlintodopractice.utils.adapter.TaskAdapter
 import com.example.kotlintodopractice.utils.model.ToDoData
 import com.google.android.material.textfield.TextInputEditText
@@ -63,7 +62,7 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
                     val name = taskSnapshot.child("name").getValue(String::class.java)
-                    val status = taskSnapshot.child("status").getValue(String::class.java)
+                    val status = taskSnapshot.child("status").getValue(String::class.java) ?: "default_status"
 
                     if (name != null && status == "done") {
                         val todoTask = ToDoData(taskSnapshot.key!!, name, status)
@@ -99,17 +98,14 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
         navController = Navigation.findNavController(view)
     }
     override fun saveTask(name: String, status: String, todoEt: TextInputEditText) {
-        // อ่านจำนวนของงานใน Firebase เพื่อหา index ถัดไป
         database.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
 
-                // สร้าง HashMap สำหรับข้อมูลที่จะเซ็ต
                 val taskMap = hashMapOf(
                     "name" to name,
                     "status" to status,
                 )
 
-                // เซ็ตข้อมูลงานใหม่ลงใน Firebase
                 database.push().setValue(taskMap)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
@@ -128,12 +124,10 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
         frag?.dismiss() // ใช้ ? เพื่อป้องกัน NullPointerException
     }
     override fun updateTask(toDoData: ToDoData, todoEdit: TextInputEditText) {
-        // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
         val taskMap = hashMapOf<String, Any>(
             "name" to toDoData.name,
         )
 
-        // อัปเดตงานใน Firebase โดยใช้ taskId และ HashMap ที่เตรียมไว้
         database.child(toDoData.taskId).updateChildren(taskMap).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
@@ -146,7 +140,6 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
 
     override fun onCheckBoxClicked(toDoData: ToDoData, isChecked: Boolean, position: Int) {
 
-        // สร้าง HashMap สำหรับข้อมูลที่จะอัปเดต
         val taskMap = hashMapOf<String, Any>(
 
             "status" to if (isChecked) "done" else "todo"
@@ -155,12 +148,13 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
         database.child(toDoData.taskId).updateChildren(taskMap).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Toast.makeText(context, "Updated Successfully", Toast.LENGTH_SHORT).show()
+                getTaskFromFirebase()
             } else {
                 Toast.makeText(context, task.exception.toString(), Toast.LENGTH_SHORT).show()
             }
             frag?.dismiss()
         }
-        getTaskFromFirebase()
+        //getTaskFromFirebase()
     }
 
 
@@ -175,12 +169,10 @@ class FinishedFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickList
     }
 
     override fun onEditItemClicked(toDoData: ToDoData, position: Int) {
-        // ตรวจสอบว่ามี dialog ที่กำลังแสดงอยู่หรือไม่ ถ้ามี ก็จะลบมันออก
         frag?.let {
             childFragmentManager.beginTransaction().remove(it).commit()
         }
 
-        // สร้าง instance ใหม่ของ ToDoDialogFragment ด้วยข้อมูลที่มีอยู่
         frag = ToDoDialogFragment.newInstance(toDoData.taskId, toDoData.name, toDoData.status)
         frag?.setListener(this)
         frag?.show(
