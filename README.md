@@ -10,8 +10,8 @@
   - Log-out
 
 ## About source code 
-Front: XML
-Data base: Firebase
+- Front: XML
+- Data base: Firebase
 
 ในฟังก์ชันแต่ละหน้า จะแบ่งเป็น Fragment มีดังนี้
   - FinishedFragment หน้าแสดง Done task
