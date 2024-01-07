@@ -28,14 +28,15 @@
 
 ## Picture Demo
 
+### Sign up
 ![singup](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/d3b98cb0-a236-406e-8f01-422f19d663af)
-
+### Sign In
 ![singin](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/994ea057-c24d-4ca8-a062-3663cca0c6ef)
-
-![home](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/1cec8269-3e35-40f3-9ab1-ca79e99cf84b)
-
-![add](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/ca39beb2-3118-44df-9a3b-618922585263)
-
+#### Home
+![home](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/223d82fb-f6d1-4359-8402-cb07053ab8b7)
+### Add Task
+![add](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/2612717f-b875-468b-b996-1d54db010cb2)
+### Done List
 ![done](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/8e8a7f08-0669-4678-a7cf-d1805ccceec8)
 
 
