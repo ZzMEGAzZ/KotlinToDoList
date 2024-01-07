@@ -26,12 +26,6 @@
  ### SplashFragment หน้าแรกที่แสดง Logo ก่อนหน้า Login
  
  ### ToDoDialogFragment หน้า Pop up ในการ Add task
- 
-
-## Team Members
-1. **Apisit Sangkrajang** (ID: 6410742016)
-2. **Panuwat Mangkang** (ID: 6410742057)
-3. **Nutchapon Kitkram** (ID: 6410742156)
 
 ## Picture Demo
 
@@ -46,6 +40,9 @@
 ### Done List
 ![done](https://github.com/ZzMEGAzZ/KotlinToDoList/assets/88434297/7eff87c6-ee8b-414c-8beb-62082ccf9b11)
 
-
+## Team Members
+1. **Apisit Sangkrajang** (ID: 6410742016)
+2. **Panuwat Mangkang** (ID: 6410742057)
+3. **Nutchapon Kitkram** (ID: 6410742156)
 
 ## Have fun using the To Do List App!
