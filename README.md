@@ -1,4 +1,13 @@
 # Planning To Do List App
+  แอพ To do list เป็นแอพการบันทึกสิงที่ต้องทำให้กับผู้ใช้งาน มีฟีเจอร์ดังนี้
+    - Sign-In
+    - Sign-Up
+    - Show Task list(To-do)
+    - Show Done list(Done task)
+    - Add Task
+    - Edit Task
+    - Delete Task
+    - Log-out
 
 ## About source code 
 Front: XML
