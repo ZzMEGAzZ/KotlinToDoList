@@ -67,7 +67,7 @@
     <fragment
         android:id="@+id/fragment_finished"
         android:name="com.example.kotlintodopractice.fragments.FinishedFragment"
-        android:label="fragment_home"
+        android:label="fragment_finished"
         tools:layout="@layout/fragment_finished" >
         <action
             android:id="@+id/action_fragment_finished_to_homeFragment"

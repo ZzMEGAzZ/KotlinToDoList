@@ -220,9 +220,5 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             val fragment = FinishedFragment()
 
         })
-        }
-
-
-
-
+    }
 }
