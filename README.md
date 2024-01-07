@@ -19,7 +19,6 @@
  
  ### HomeFragment หน้าแสดง To do list ทั้งหมดที่ยังไม่เสร็จ
   -  รับผิดชอบในการแสดงรายการสิ่งที่ผู้ใช้ต้องทำ (to-do tasks) โดยมีการติดต่อกับ Firebase เพื่อดึงข้อมูลและอัปเดตงานที่ต้องทำ
-    ## ฟังก์ชัน
       - onCreateView: ใช้ในการเตรียม layout สำหรับ fragment
       - onViewCreated: ทำการเริ่มต้นคอมโพเนนต์ UI, ตั้งค่า listener สำหรับคลิกปุ่ม, และดึงงานที่ต้องทำจาก Firebase
       - getTaskFromFirebase: ดึงงานที่ต้องทำจาก Firebase Realtime Database และอัปเดต UI
@@ -27,7 +26,6 @@
 
 ### FinishedFragment หน้าแสดง To do list ทั้งหมดที่ยังเสร็จแล้ว
   -  แสดงรายการงานที่ผู้ใช้ทำเสร็จแล้ว โดยมีการติดต่อกับ Firebase เพื่อดึงข้อมูลและอัปเดตงานที่เสร็จสิ้น
-    ## ฟังก์ชัน
       - onCreateView: ใช้ในการเตรียม layout สำหรับ fragment
       - onViewCreated: ทำการเริ่มต้นคอมโพเนนต์ UI, ตั้งค่า listener สำหรับคลิกปุ่ม, และดึงงานที่เสร็จสิ้นจาก Firebase
       - getTaskFromFirebase: ดึงงานที่เสร็จสิ้นจาก Firebase Realtime Database และอัปเดต UI
@@ -42,7 +40,6 @@
  
  ### ToDoDialogFragment หน้า Pop up ในการ Add task
    - ToDoDialogFragment เป็น dialog fragment ที่ใช้สำหรับเพิ่มและแก้ไขงาน มีการสื่อสารกับ fragment ที่เรียกใช้ผ่าน OnDialogNextBtnClickListener interface
-     ## ฟังก์ชัน
       - onCreateView: ใช้ในการเตรียม layout สำหรับ dialog fragment
       - onViewCreated: ทำการเริ่มต้นคอมโพเนนต์ UI และจัดการตรรกะสำหรับการเพิ่มหรือแก้ไขงาน
       - setListener: ตั้งค่า listener สำหรับคลิกปุ่มใน dialog
