@@ -58,6 +58,7 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
 
                 binding.checkDone.isChecked = this.status == "done"
 
+
                 binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
                     listener?.onCheckBoxClicked(this, isChecked, position)
                 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,7 +14,8 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingVertical="20dp">
+        android:paddingVertical="20dp"
+        >
 
         <TextView
             android:id="@+id/todoTask"
@@ -49,24 +51,12 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/checkDone"-->
-        <!--            android:layout_width="35dp"-->
-        <!--            android:layout_height="35dp"-->
-        <!--            android:layout_marginStart="20dp"-->
-        <!--            android:background="#00FFFFFF"-->
-        <!--            android:contentDescription="@string/common_google_play_services_update_button"-->
-        <!--            android:scaleType="fitXY"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:srcCompat="@drawable/done_btn"-->
-        <!--            tools:ignore="TouchTargetSizeCheck" />-->
 
         <CheckBox
             android:id="@+id/checkDone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:buttonTint="#4CAF50"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

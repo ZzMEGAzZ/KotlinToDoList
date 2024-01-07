@@ -88,7 +88,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
                     val name = taskSnapshot.child("name").getValue(String::class.java)
                     val status = taskSnapshot.child("status").getValue(String::class.java) ?: "default_status"
 
-                    if (name != null) {
+                    if (name != null && status == "todo") {
                         val todoTask = ToDoData(taskSnapshot.key!!, name, status)
                         toDoItemList.add(todoTask)
                     }
@@ -185,6 +185,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             }
             frag?.dismiss()
         }
+        getTaskFromFirebase()
     }
 
 

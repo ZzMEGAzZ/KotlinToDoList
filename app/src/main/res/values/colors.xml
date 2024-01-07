@@ -10,4 +10,5 @@
 
     <color name="text_color">#21108A</color>
     <color name="secondary_color">#D5CEFF</color>
+    <color name="light_green">#00FF00</color>
 </resources>

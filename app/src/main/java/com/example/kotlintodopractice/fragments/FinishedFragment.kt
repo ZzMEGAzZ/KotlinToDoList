@@ -1,7 +1,5 @@
 package com.example.kotlintodopractice.fragments
 
-<<<<<<< Updated upstream
-
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -62,10 +60,3 @@ class FinishedFragment : Fragment(){
 
 
 }
-
-=======
-import androidx.fragment.app.Fragment
-
-class FinishedFragment : Fragment(){
-}
->>>>>>> Stashed changes
