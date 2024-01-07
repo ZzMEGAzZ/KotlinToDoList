@@ -1,4 +1,4 @@
-# To Do List App
+# Planning To Do List App
 
 ## Team Members
 1. **Apisit Sangkrajang** (ID: 6410742016)
