@@ -8,7 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.kotlintodopractice.R
 import com.example.kotlintodopractice.databinding.FragmentHomeBinding
+import com.example.kotlintodopractice.databinding.FragmentFinishedBinding
 import com.example.kotlintodopractice.utils.adapter.TaskAdapter
 import com.example.kotlintodopractice.utils.model.ToDoData
 import com.google.android.material.textfield.TextInputEditText
@@ -19,6 +21,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 
 
 class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener,
@@ -33,6 +37,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
 
     private lateinit var taskAdapter: TaskAdapter
     private lateinit var toDoItemList: MutableList<ToDoData>
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,10 +51,17 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        init()
+        navController = Navigation.findNavController(view)
+
+        init(view)
 
         //get data from firebase
         getTaskFromFirebase()
+
+        binding.doneTaskBtn.setOnClickListener {
+            navController.navigate(R.id.action_homeFragment_to_fragment_finished)
+
+        }
 
         binding.addTaskBtn.setOnClickListener {
 
@@ -64,6 +76,8 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
             )
 
         }
+
+
     }
 
 //    private fun getTaskFromFirebase() {
@@ -116,7 +130,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         })
     }
 
-    private fun init() {
+    private fun init(view: View) {
 
         auth = FirebaseAuth.getInstance()
         authId = auth.currentUser!!.uid
@@ -131,6 +145,7 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         taskAdapter = TaskAdapter(toDoItemList)
         taskAdapter.setListener(this)
         binding.mainRecyclerView.adapter = taskAdapter
+        navController = Navigation.findNavController(view)
     }
 
     override fun saveTask(name: String, status: String, todoEt: TextInputEditText) {
@@ -224,18 +239,15 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
         )
     }
 
-//    override fun onClickFAB() {
-//        binding.doneTaskBtn.setOnClickListener(View.OnClickListener {
-//            // navigate to fragment_finished
-//            val fragment = FinishedFragment()
-//            val transaction = requireActivity().supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.fragment_container, fragment)
-//            transaction.addToBackStack(null)
-//            transaction.commit()
-//        })
-//        }
-//
-//    }
+    fun onClickFAB() {
+        binding.doneTaskBtn.setOnClickListener(View.OnClickListener {
+            // navigate to fragment_finished
+            val fragment = FinishedFragment()
+
+        })
+        }
+
+
 
 
 }
