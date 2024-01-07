@@ -13,7 +13,7 @@
 - Language: Kotlin
 - Front: XML
 - Data base: Firebase
-ในฟังก์ชันแต่ละหน้า จะแบ่งเป็น Fragment
+- ในฟังก์ชันแต่ละหน้า จะแบ่งเป็น Fragment
 
  ### FinishedFragment หน้าแสดง Done task
  
