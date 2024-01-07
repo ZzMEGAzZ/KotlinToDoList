@@ -23,47 +23,50 @@ class TaskAdapter(private val list: MutableList<ToDoData>) : RecyclerView.Adapte
     }
 
 //    override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
-//        val currentItem = list[position]
-//        with(holder.binding) {
-//            // ตั้งค่าข้อความของงาน - สมมติว่า 'name' เป็นชื่อของงาน
-//            todoTask.text = currentItem.name
+//        with(holder) {
+//            with(list[position]) {
+//                binding.todoTask.text = this.name
 //
-//            // Log สำหรับ Debugging
-//            Log.d(TAG, "onBindViewHolder: $currentItem")
+//                Log.d(TAG, "onBindViewHolder: "+this)
+//                binding.editTask.setOnClickListener {
+//                    listener?.onEditItemClicked(this , position)
+//                }
 //
-//            // ตั้ง Listener สำหรับปุ่ม Edit
-//            editTask.setOnClickListener {
-//                listener?.onEditItemClicked(currentItem, position)
-//            }
+//                binding.deleteTask.setOnClickListener {
+//                    listener?.onDeleteItemClicked(this , position)
+//                }
 //
-//            // ตั้ง Listener สำหรับปุ่ม Delete
-//            deleteTask.setOnClickListener {
-//                listener?.onDeleteItemClicked(currentItem, position)
+//                binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
+//                    listener?.onCheckBoxClicked(this , isChecked , position)
+//                }
 //            }
 //        }
 //    }
-
     override fun onBindViewHolder(holder: TaskViewHolder, position: Int) {
         with(holder) {
             with(list[position]) {
                 binding.todoTask.text = this.name
 
-                Log.d(TAG, "onBindViewHolder: "+this)
+                Log.d(TAG, "onBindViewHolder: $this")
                 binding.editTask.setOnClickListener {
-                    listener?.onEditItemClicked(this , position)
+                    listener?.onEditItemClicked(this, position)
                 }
 
                 binding.deleteTask.setOnClickListener {
-                    listener?.onDeleteItemClicked(this , position)
+                    listener?.onDeleteItemClicked(this, position)
                 }
 
+                binding.checkDone.isChecked = this.status == "done"
+
                 binding.checkDone.setOnCheckedChangeListener { _, isChecked ->
-                    listener?.onCheckBoxClicked(this , isChecked , position)
+                    listener?.onCheckBoxClicked(this, isChecked, position)
                 }
 
             }
         }
     }
+
+
 
 
     override fun getItemCount(): Int {

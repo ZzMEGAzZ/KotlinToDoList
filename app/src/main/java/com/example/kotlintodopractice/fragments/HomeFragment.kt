@@ -83,20 +83,19 @@ class HomeFragment : Fragment(), ToDoDialogFragment.OnDialogNextBtnClickListener
     private fun getTaskFromFirebase() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-
                 toDoItemList.clear()
                 for (taskSnapshot in snapshot.children) {
                     val name = taskSnapshot.child("name").getValue(String::class.java)
+                    val status = taskSnapshot.child("status").getValue(String::class.java) ?: "default_status"
 
                     if (name != null) {
-                        val todoTask = ToDoData(taskSnapshot.key!!, name)
+                        val todoTask = ToDoData(taskSnapshot.key!!, name, status)
                         toDoItemList.add(todoTask)
                     }
                 }
 
                 Log.d(TAG, "onDataChange: " + toDoItemList)
                 taskAdapter.notifyDataSetChanged()
-
             }
 
             override fun onCancelled(error: DatabaseError) {
